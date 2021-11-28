@@ -1,10 +1,20 @@
-﻿using AdventOfCode2021.Solutions;
+﻿using System;
+using AdventOfCode2021.Solutions;
 
 namespace AdventOfCode2021 {
     public class Program {
         private static readonly List<Solution> Puzzles = new List<Solution> { new Day1() };
 
         public static void Main() {
+            try {
+                ExecuteSolution();
+            } catch (Exception e) {
+                Console.WriteLine("Exception while executing solution!");
+                Console.WriteLine(e);
+            }
+        }
+
+        private static void ExecuteSolution() {
             Console.WriteLine($"There are cuttently {Puzzles.Count} puzzle solutions registered.");
             if (!Puzzles.Any()) {
                 Console.WriteLine("No puzzle solutions yet. Exiting.");
