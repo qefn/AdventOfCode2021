@@ -3,7 +3,7 @@ using AdventOfCode2021.Solutions;
 
 namespace AdventOfCode2021 {
     public class Program {
-        private static readonly List<Solution> Puzzles = new List<Solution> { new Day1() };
+        private static readonly List<Solution> Puzzles = new List<Solution> { new Day01Solution() };
 
         public static void Main() {
             try {
