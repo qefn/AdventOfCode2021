@@ -12,5 +12,6 @@ namespace AdventOfCode2021.Solutions {
 
             return File.ReadAllLines(path).ToList();
         }
+
     }
 }
