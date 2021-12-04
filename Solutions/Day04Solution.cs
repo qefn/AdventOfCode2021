@@ -56,6 +56,18 @@ namespace AdventOfCode2021.Solutions {
         }
 
         private class Board {
+            private bool AnyColumnWins => Columns.Any(column => column.All(cell => cell.Marked));
+
+            private bool AnyRowWins => Rows.Any(row => row.All(cell => cell.Marked));
+
+            public List<List<Cell>> Columns { get; } = new List<List<Cell>>();
+
+            public bool IsWinner => AnyRowWins || AnyColumnWins;
+
+            public List<List<Cell>> Rows { get; } = new List<List<Cell>>();
+
+            public int UnMarkedSum => Rows.Sum(row => row.Sum(cell => cell.Marked ? 0 : cell.Number));
+
             public void AddRow(string rowString) {
                 List<Cell> row = rowString.Split(" ").Where(str => !string.IsNullOrEmpty(str)).Select(numStr => new Cell(int.Parse(numStr))).ToList();
                 for (int i = 0; i < row.Count; i++) {
@@ -71,17 +83,6 @@ namespace AdventOfCode2021.Solutions {
                 Rows.ForEach(row => row.ForEach(cell => cell.Marked |= cell.Number == number));
                 return IsWinner;
             }
-
-            public bool IsWinner => AnyRowWins || AnyColumnWins;
-
-            public int UnMarkedSum => Rows.Sum(row => row.Sum(cell => cell.Marked ? 0 : cell.Number));
-
-            private bool AnyRowWins => Rows.Any(row => row.All(cell => cell.Marked));
-
-            private bool AnyColumnWins => Columns.Any(column => column.All(cell => cell.Marked));
-
-            public List<List<Cell>> Rows { get; } = new List<List<Cell>>();
-            public List<List<Cell>> Columns { get; } = new List<List<Cell>>();
         }
 
         public class Cell {
@@ -89,8 +90,9 @@ namespace AdventOfCode2021.Solutions {
                 Number = number;
             }
 
-            public int Number { get; set; }
             public bool Marked { get; set; } = false;
+
+            public int Number { get; set; }
         }
     }
 
