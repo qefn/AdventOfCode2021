@@ -22,7 +22,7 @@ namespace AdventOfCode2021.Solutions {
         private void Solve(string inputFile, bool considerDiagonals) {
             List<string> input = ReadInputFile(inputFile);
             List<Tuple<Point, Point>> lines = input.Select(line => line.Split(" -> ")).Select(line => new Tuple<Point, Point>(GetPointFromString(line[0]), GetPointFromString(line[1]))).ToList();
-            int[,] grid = new int[lines.Max(line => line.Item1.X > line.Item2.X ? line.Item1.X : line.Item2.X) + 1, lines.Max(line => line.Item1.Y > line.Item2.Y ? line.Item1.Y : line.Item2.Y) + 1];
+            int[,] grid = new int[lines.Max(line => Math.Max(line.Item2.X, line.Item1.X)) + 1, lines.Max(line => Math.Max(line.Item1.Y, line.Item2.Y)) + 1];
 
             foreach (var line in lines) {
                 bool horizontalLine = line.Item1.X != line.Item2.X;
@@ -41,11 +41,13 @@ namespace AdventOfCode2021.Solutions {
                     }
                     continue;
                 }
+
                 if (horizontalLine || (!horizontalLine && !verticalLine)) {
                     for (int x = Math.Min(line.Item1.X, line.Item2.X); x <= Math.Max(line.Item1.X, line.Item2.X); x++) {
                         grid[x, line.Item1.Y] += 1;
                     }
                 }
+
                 if (verticalLine) {
                     for (int y = Math.Min(line.Item1.Y, line.Item2.Y); y <= Math.Max(line.Item1.Y, line.Item2.Y); y++) {
                         grid[line.Item1.X, y] += 1;
