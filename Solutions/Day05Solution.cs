@@ -38,7 +38,6 @@ namespace AdventOfCode2021.Solutions {
                     x = x < line.Item2.X ? x + 1 : x == line.Item2.X ? x : x - 1;
                     y = y < line.Item2.Y ? y + 1 : y == line.Item2.Y ? y : y - 1;
                 }
-                continue;
             }
 
             int overlappingPointVount = (from int point in grid select point).Count(point => point > 1);
