@@ -27,32 +27,18 @@ namespace AdventOfCode2021.Solutions {
             foreach (var line in lines) {
                 bool horizontalLine = line.Item1.X != line.Item2.X;
                 bool verticalLine = line.Item1.Y != line.Item2.Y;
-                if (horizontalLine && verticalLine) {
-                    if (!considerDiagonals) {
-                        continue;
-                    }
-
-                    int x = line.Item1.X;
-                    int y = line.Item1.Y;
-                    for (int i = 0; i <= Math.Abs(line.Item1.X - line.Item2.X); i++) {
-                        grid[x, y] += 1;
-                        x = x < line.Item2.X ? x + 1 : x - 1;
-                        y = y < line.Item2.Y ? y + 1 : y - 1;
-                    }
+                if (horizontalLine && verticalLine && !considerDiagonals) {
                     continue;
                 }
 
-                if (horizontalLine || (!horizontalLine && !verticalLine)) {
-                    for (int x = Math.Min(line.Item1.X, line.Item2.X); x <= Math.Max(line.Item1.X, line.Item2.X); x++) {
-                        grid[x, line.Item1.Y] += 1;
-                    }
+                int x = line.Item1.X;
+                int y = line.Item1.Y;
+                for (int i = 0; i <= Math.Max(Math.Abs(line.Item1.X - line.Item2.X), Math.Abs(line.Item1.Y - line.Item2.Y)); i++) {
+                    grid[x, y] += 1;
+                    x = x < line.Item2.X ? x + 1 : x == line.Item2.X ? x : x - 1;
+                    y = y < line.Item2.Y ? y + 1 : y == line.Item2.Y ? y : y - 1;
                 }
-
-                if (verticalLine) {
-                    for (int y = Math.Min(line.Item1.Y, line.Item2.Y); y <= Math.Max(line.Item1.Y, line.Item2.Y); y++) {
-                        grid[line.Item1.X, y] += 1;
-                    }
-                }
+                continue;
             }
 
             int overlappingPointVount = (from int point in grid select point).Count(point => point > 1);
