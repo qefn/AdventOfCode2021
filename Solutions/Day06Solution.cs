@@ -6,22 +6,21 @@ namespace AdventOfCode2021.Solutions {
 
         private void Solve(string inputFile, int days) {
             List<string> input = ReadInputFile(inputFile);
-            List<Fish> fishes = new List<Fish>(2000000000);
-            fishes.AddRange(input.First().Split(",").Select(str => new Fish(int.Parse(str))));
+            Dictionary<int, long> reproductionState = new Dictionary<int, long> { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 0 }, { 7, 0 }, { 8, 0 } };
+            List<int> fishes = input.First().Split(",").Select(str => int.Parse(str)).ToList();
+            fishes.ForEach(fish => reproductionState[fish]++);
+
             for (int i = 0; i < days; i++) {
-                Console.WriteLine(i);
-                int newBorn = 0;
-                fishes.ForEach(fish => {
-                    if (fish.LiveAnotherDay()) {
-                        newBorn++;
-                    }
-                });
-                for (int j = 0; j < newBorn; j++) {
-                    fishes.Add(new Fish());
+                long newBorn = reproductionState[0];
+                reproductionState[7] += newBorn;
+                for (int j = 1; j < 9; j++) {
+                    reproductionState[j - 1] = reproductionState[j];
                 }
+                reproductionState[8] = newBorn;
             }
 
-            Console.WriteLine($"There are {fishes.Count} lanternfishes after 80 days.");
+            long count = reproductionState.Values.Sum();
+            Console.WriteLine($"There are {count} lanternfishes after {days} days.");
         }
 
         private void Stage1() {
@@ -30,26 +29,6 @@ namespace AdventOfCode2021.Solutions {
 
         private void Stage2() {
             Solve("Day06Stage02.txt", 256);
-        }
-
-        private class Fish {
-            public Fish() {
-            }
-
-            public Fish(int timeTillReproduction) {
-                ReproductionCountdown = timeTillReproduction;
-            }
-
-            private int ReproductionCountdown { get; set; } = 8;
-
-            public bool LiveAnotherDay() {
-                if (ReproductionCountdown == 0) {
-                    ReproductionCountdown = 6;
-                    return true;
-                }
-                ReproductionCountdown--;
-                return false;
-            }
         }
     }
 }
