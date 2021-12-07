@@ -1,7 +1,5 @@
 namespace AdventOfCode2021.Solutions {
     public class Day02Solution : Solution {
-        public override int Id => 2;
-
         public override List<Action> Stages => new List<Action> { Stage1, Stage2 };
 
         private List<Tuple<Direction, int>> GetCourse(string inputFileName) {

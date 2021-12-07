@@ -1,7 +1,5 @@
 namespace AdventOfCode2021.Solutions {
     public class Day01Solution : Solution {
-        public override int Id => 1;
-
         public override List<Action> Stages => new List<Action> { () => Stage1(), Stage2 };
 
         private void Stage1(List<int>? measurements = null) {
